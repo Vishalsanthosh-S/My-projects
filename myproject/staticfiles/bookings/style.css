@@ -1,0 +1,108 @@
+:root {
+    --primary: #007bff;
+    --primary-hover: #0056b3;
+    --success: #28a745;
+    --danger: #dc3545;
+    --glass: rgba(255, 255, 255, 0.96);
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Logout Button */
+.logout-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9em;
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+}
+.logout-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* Layout */
+.main-wrapper { width: 100%; padding: 60px 20px; box-sizing: border-box; }
+.main-header { text-align: center; color: white; margin-bottom: 40px; }
+
+/* Search Box */
+.search-section { max-width: 800px; margin: 0 auto; }
+.search-box {
+    background: var(--glass);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    gap: 10px;
+}
+.search-box input {
+    flex: 1; padding: 14px; border: 1px solid #ddd; border-radius: 8px;
+}
+.search-btn {
+    background: var(--primary); color: white; border: none;
+    padding: 0 25px; border-radius: 8px; font-weight: bold; cursor: pointer;
+}
+
+/* Bus Cards */
+.results-container { max-width: 1000px; margin: 40px auto; }
+.bus-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+.bus-card {
+    background: var(--glass);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.bus-card:hover { transform: translateY(-5px); }
+
+.bus-header { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.bus-type { font-size: 0.75em; padding: 4px 8px; border-radius: 4px; background: #eee; }
+
+.status-pill {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+.status-available { background: #d4edda; color: #155724; }
+.status-full { background: #f8d7da; color: #721c24; }
+
+.book-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--success);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.book-btn.sold-out { background: #ccc; cursor: not-allowed; }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .search-box { flex-direction: column; }
+    .search-btn { padding: 15px; }
+}

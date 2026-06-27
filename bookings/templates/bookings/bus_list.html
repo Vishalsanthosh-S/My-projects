@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Bus</title>
+    <style>
+        body { 
+            background-image: linear-gradient(rgba(20, 30, 48, 0.7), rgba(36, 59, 85, 0.8)), url('https://5.imimg.com/data5/SB/DJ/MY-12369084/online-bus-booking-software.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 40px 20px; margin: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: flex-start;
+        }
+        
+        .main-container { 
+            width: 100%; max-width: 650px;
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 35px; border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Top Navigation */
+        .top-nav { display: flex; justify-content: space-between; margin-bottom: 25px; }
+        .nav-btn { text-decoration: none; padding: 8px 15px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; transition: 0.3s; }
+        .logout-btn { background: rgba(231, 76, 60, 0.8); color: white; }
+        .history-btn { background: rgba(0, 210, 255, 0.8); color: white; }
+        .nav-btn:hover { opacity: 0.9; }
+
+        h1 { font-size: 2.2rem; margin-bottom: 5px; background: linear-gradient(45deg, #ff7e5f, #feb47b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: #ccc; margin-bottom: 30px; font-size: 0.95rem; }
+
+        .input-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px; }
+        label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #00d2ff; }
+        input[type="text"] { padding: 14px 16px; border: 2px solid transparent; border-radius: 8px; color: #000; font-size: 1rem; width: 100%; box-sizing: border-box;}
+
+        .search-btn { padding: 14px; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s; width: 100%; background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%); }
+        .search-btn:hover { transform: translateY(-2px); }
+        
+        .bus-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .bus-details h3 { margin: 0 0 8px 0; color: #fff; font-size: 1.2rem; }
+        .route-highlight { color: #feb47b; font-weight: 500; }
+        .select-link { padding: 10px 20px; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        .sold-out-btn { background: #555555; color: #aaaaaa; cursor: not-allowed; padding: 10px 20px; border-radius: 6px; border: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="top-nav">
+            <a href="{% url 'logout' %}" class="nav-btn logout-btn">Logout</a>
+            <a href="{% url 'my_bookings' %}" class="nav-btn history-btn">My Bookings</a>
+        </div>
+
+        <h1>Online Bus Booking</h1>
+        <p class="subtitle">Search available routes</p>
+        
+        <form method="GET" action="{% url 'search_results' %}">
+            <div class="input-group">
+                <label>Leaving From</label>
+                <input type="text" name="origin" placeholder="e.g. Chennai" value="{{ request.GET.origin|default:'' }}">
+            </div>
+            <div class="input-group">
+                <label>Going To</label>
+                <input type="text" name="destination" placeholder="e.g. Madurai" value="{{ request.GET.destination|default:'' }}">
+            </div>
+            <button type="submit" class="search-btn">Find Available Buses</button>
+        </form>
+
+        <h2 style="margin-top: 30px;">Available Matches</h2>
+        
+        {% if buses %}
+            {% for bus in buses %}
+                <div class="bus-card">
+                    <div class="bus-details">
+                        <h3>Bus: {{ bus.bus_number }}</h3>
+                        <p>Route: <span class="route-highlight">{{ bus.origin }}</span> ➔ <span class="route-highlight">{{ bus.destination }}</span></p>
+                        <p>Departure: {{ bus.departure_time|date:"d M Y - h:i A" }}</p>
+                        <p>
+                            {% if bus.capacity > 0 %}
+                                <span style="color: #2ecc71;">Available: <strong>{{ bus.capacity }} seats</strong></span>
+                            {% else %}
+                                <span style="color: #e74c3c;">🚫 Full</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        {% if bus.capacity > 0 %}
+                            <a href="{% url 'book_ticket' bus.id %}" class="select-link">Select</a>
+                        {% else %}
+                            <button class="sold-out-btn" disabled>Sold Out</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #bbb; text-align: center;">No matches found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

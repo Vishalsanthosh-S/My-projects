@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Bookings</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .cancel-btn { color: #d9534f; font-weight: bold; text-decoration: none; border: 1px solid #d9534f; padding: 5px 10px; border-radius: 4px; }
+        .cancel-btn:hover { background-color: #d9534f; color: white; }
+    </style>
+</head>
+<body>
+
+    <h2>My Booking History</h2>
+    <a href="{% url 'search_page' %}">← Back to Search</a>
+    <hr>
+
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Route</th>
+                    <th>Passenger</th>
+                    <th>Seats</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.bus.origin }} to {{ booking.bus.destination }}</td>
+                    <td>{{ booking.passenger_name }}</td>
+                    <td>{{ booking.seats_booked }}</td>
+                    <td>
+                        <a href="{% url 'cancel_ticket' booking.id %}" 
+                           class="cancel-btn"
+                           onclick="return confirm('Are you sure you want to cancel this booking?');">
+                           Cancel
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div style="padding: 20px; background-color: #fff3cd; border: 1px solid #ffeeba;">
+            <p><strong>No bookings found.</strong></p>
+            <p>You are logged in as: <strong>{{ request.user.username }}</strong></p>
+            <p>If you have already made a booking, ensure you are logged in with the same account you used to book.</p>
+        </div>
+    {% endif %}
+
+</body>
+</html>

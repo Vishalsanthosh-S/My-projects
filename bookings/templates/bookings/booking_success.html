@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmed</title>
+    <style>
+        body { 
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;
+        }
+        .success-card {
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; max-width: 400px; width: 90%;
+        }
+        .icon { font-size: 50px; color: #28a745; margin-bottom: 15px; }
+        h2 { color: #333; margin-top: 0; }
+        .details { margin: 20px 0; text-align: left; background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745; }
+        .details p { margin: 8px 0; font-size: 0.95em; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn { padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-outline { background: transparent; color: #555; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<div class="success-card">
+    <div class="icon">✓</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your ticket has been successfully booked.</p>
+
+    <div class="details">
+        <p><strong>Booking ID:</strong> #{{ booking.id }}</p>
+        <p><strong>Passenger:</strong> {{ booking.passenger_name }}</p>
+        <p><strong>Route:</strong> {{ booking.bus.origin }} to {{ booking.bus.destination }}</p>
+        <p><strong>Seats Booked:</strong> {{ booking.seats_booked }}</p>
+    </div>
+
+    <div class="btn-group">
+        <a href="{% url 'my_bookings' %}" class="btn btn-primary">View My History</a>
+        <a href="{% url 'search_page' %}" class="btn btn-outline">Back to Home</a>
+    </div>
+</div>
+
+</body>
+</html>

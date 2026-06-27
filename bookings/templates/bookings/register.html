@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Online Bus Booking</title>
+    <style>
+        body { 
+            background: linear-gradient(rgba(20, 30, 48, 0.7), rgba(36, 59, 85, 0.8)), url('https://5.imimg.com/data5/SB/DJ/MY-12369084/online-bus-booking-software.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .auth-card {
+            width: 100%; max-width: 400px;
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        h2 { text-align: center; margin-bottom: 25px; font-size: 1.8rem; color: #fff; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #00d2ff; text-transform: uppercase; }
+        
+        /* Styling Django form inputs */
+        input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
+            width: 100%; padding: 14px; box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.9); border: none; border-radius: 8px;
+            font-size: 1rem; color: #333;
+        }
+
+        button { 
+            width: 100%; padding: 14px; border: none; border-radius: 8px;
+            background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+            color: white; font-size: 1rem; font-weight: bold; cursor: pointer;
+            transition: transform 0.2s; margin-top: 10px;
+        }
+        button:hover { transform: translateY(-2px); }
+
+        .login-link { text-align: center; margin-top: 20px; font-size: 0.9rem; color: #ccc; }
+        .login-link a { color: #feb47b; text-decoration: none; }
+        .login-link a:hover { text-decoration: underline; }
+
+        /* Error Messages */
+        .error-msg { color: #ff7e5f; font-size: 0.85rem; margin-top: 5px; list-style: none; padding: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Create Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="input-group">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <ul class="error-msg">{{ field.errors }}</ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone_number" required>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #111424; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+        .card { text-align: center; padding: 50px; background: rgba(255,255,255,0.05); border-radius: 20px; }
+        .btn { display: block; padding: 15px 30px; margin: 10px; text-decoration: none; border-radius: 8px; color: white; font-weight: bold; }
+        .login { background: #00d2ff; }
+        .register { background: #2ecc71; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Welcome to Bus Booking</h1>
+        <p>Please authenticate to find your route.</p>
+        <a href="{% url 'login' %}" class="btn login">Login</a>
+        <a href="{% url 'register' %}" class="btn register">Register</a>
+    </div>
+</body>
+</html>
